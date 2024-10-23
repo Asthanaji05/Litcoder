@@ -1,34 +1,39 @@
-import sys
+def zero_sum_subarray(input_array):
 
-def doSomething(inval):
-    #Do Something
-    arr = list(map(int, inval.split()))
-    n = len(arr)
-    
-    if n >=10:
-        return "Array size must be between 1 and 10"
-    
-    if any(arr) not in range(-9, 10):
-        return "Array elements must be from -10 to 10"
-    
-    if min(arr) > 0 or max(arr) < 0:
-        return "Array elements must be integers"
-        
-    n_sum = 0
-    s = set()
-    
-    for i in range(n):
-        n_sum += arr[i]
-        
-        if n_sum == 0 or n_sum in s:
-            return f"{True}\n{n}"
-        
-        s.add(n_sum)
-        
-    return f"{False}\n{n}"
+    # Check for array size constraint
+    if len(input_array) < 1 or len(input_array) > 10:
+        print("Array size must be between 1 and 10")
+        return
 
-input = input()
-#input = int(input())
-output = doSomething(input)
-print (output)
-                                                                                                                            
+    # Convert input to integers and check element constraints
+    try:
+        arr = list(map(int, input_array))
+    except ValueError:
+        print("Array elements must be integers")
+        return
+
+    if any(num < -10 or num > 10 for num in arr):
+        print("Array elements must be from -10 to 10")
+        return
+
+    # Check for zero sum subarray using a set to track sums
+    cumulative_sum = 0
+    seen_sums = set()
+
+    for num in arr:
+        cumulative_sum += num
+        
+        # Check if cumulative sum is zero or already seen
+        if cumulative_sum == 0 or cumulative_sum in seen_sums:
+            print("True")
+            print(len(arr))
+            return
+        
+        seen_sums.add(cumulative_sum)
+
+    print("False")
+    print(len(arr))
+
+# Call the function
+arr = list(map(int, input().split()))
+zero_sum_subarray(arr)
